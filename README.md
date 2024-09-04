@@ -8,13 +8,6 @@ Febrile neutropenia is a serious condition that can lead to life-threatening inf
 ## Table of Contents
 - [Introduction](#introduction)
 - [Installation](#installation)
-- [Usage](#usage)
-- [Dataset](#dataset)
-- [Model](#model)
-- [Results](#results)
-- [Contributing](#contributing)
-- [License](#license)
-- [References](#references)
 
 ## Introduction
 In this project, we explore various machine learning algorithms to predict the likelihood of bloodstream infections in pediatric patients with febrile neutropenia. The features used for prediction include clinical and laboratory data collected at the time of hospital admission.
