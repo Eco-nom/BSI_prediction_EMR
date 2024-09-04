@@ -11,8 +11,7 @@ from sklearn.metrics import roc_curve
 from sklearn.metrics import brier_score_loss
 from sklearn.metrics import log_loss
 
-# 만약 Grid search 한다면
-# globalVariables module 에서 변수 불러오기
+
 #from globalVariables import Feature_lst
 #from globalVariables import Feature_OHE
 
@@ -23,7 +22,7 @@ from sklearn.metrics import log_loss
 # Output - X, Y (pandas dataframe)
 def splitXY(df_merge, all_features):
     X = df_merge[all_features]
-    Y = df_merge['Septic_shock'] # 수정 20230601
+    Y = df_merge['Septic_shock']
 
     return X, Y
 
@@ -45,7 +44,7 @@ def splitTrainTest(X, Y, seed, testsize):
 
 
 # USAGE : X_train, X_test = standardScaleData(X_train, X_test) # Recursive
-# Standard scaling - Logistic regression 할때 사용
+# Standard scaling - Logistic regression 
 '''
 def standardScaleData(X_train, X_test):
     from sklearn.preprocessing import StandardScaler
@@ -78,10 +77,10 @@ def selectFeatures(clf, number_of_features, X_train, y_train, all_features, X):
 
     return lst_selected_idx, lst_selected_featurename
 
-# Logistic regression 전용 함수
+# Logistic regression 
 # USAGE : coef_result = extractCoefficient(clf, X_train, y_train, lst_selected_featurename)
 # Output format - pandas dataframe
-# 없애도 되는 함수임 !!
+
 def extractCoefficient(clf, X_train, y_train, lst_selected_featurename):
     clf.score(X_train, y_train)
     coef_result = pd.DataFrame({'Var': lst_selected_featurename, 'Coefficient': list(clf.coef_[0])})
@@ -99,32 +98,31 @@ def plotROC(clf, X_test, y_test, pred_test, modelname):
     plt.xlabel('False Positive Rate')
     plt.ylabel('True Positive Rate')
     plt.title(
-        'Receiver operating characteristic')  # error 있어서 수정 plt.title('Day %s : Receiver operating characteristic'%day)
+        'Receiver operating characteristic')  
     plt.legend(loc="lower right")
     plt.savefig('Log_ROC')
     plt.show()
     plt.clf()
 
 
-# 예전 precision_recall_curve_plot
+
 # USAGE : plotPRcurve(y_test, clf.predict_proba(X_test)[:,1])
 def plotPRcurve(y_test, pred_proba_c1):
     from sklearn.metrics import precision_recall_curve
-    # threshold ndarray와 이 threshold에 따른 정밀도, 재현율 ndarray 추출
+   
     precisions, recalls, thresholds = precision_recall_curve(y_test, pred_proba_c1)
 
-    # x축을 threshold 값, y축을 정밀도, 재현율로 그리기
+    
     # plt.figure(figsize=(8, 6))
     plt.figure()
     thresholds_boundary = thresholds.shape[0]
     plt.plot(thresholds, precisions[0: thresholds_boundary], linestyle='--', label='precision')
     plt.plot(thresholds, recalls[0: thresholds_boundary], label='recall')
 
-    # threshold의 값 X축의 scale을 0.1 단위로 변경
+
     stard, end = plt.xlim()
     plt.xticks(np.round(np.arange(stard, end, 0.1), 2))
 
-    # x축, y축 label과 legend, 그리고 grid 설정
     plt.title('Precision-Recall curve')
     plt.xlabel('Threshold value')
     plt.ylabel('Precision and Recall value')
@@ -135,7 +133,7 @@ def plotPRcurve(y_test, pred_proba_c1):
 
 
 ##########################
-# 예전 KFold_ROC
+
 def plotKfoldROC(X_train, y_train, clf, kfold, modelname):
     from sklearn.metrics import precision_recall_curve
     from sklearn.metrics import auc
@@ -162,15 +160,15 @@ def plotKfoldROC(X_train, y_train, clf, kfold, modelname):
         plt.legend(loc="lower right")
         plt.savefig('Log_ROC')
         
-        prec, recall, _ = precision_recall_curve(y_test_fold, clf.predict_proba(X_test_fold)[:, 1]) # 추가 20220729
-        auc_score = auc(recall, prec) # 추가 20220729
-        mean_pr_auc.append(auc_score) # 추가 20220729
+        prec, recall, _ = precision_recall_curve(y_test_fold, clf.predict_proba(X_test_fold)[:, 1])
+        auc_score = auc(recall, prec)
+        mean_pr_auc.append(auc_score) 
     cv_roc_auc = np.mean(mean_auc)
-    cv_pr_auc=np.mean(mean_pr_auc) # 추가 20220729
+    cv_pr_auc=np.mean(mean_pr_auc) 
     print('Mean ROC AUC score : %.3f' % cv_roc_auc)
     plt.show()
     plt.clf()
-    return cv_roc_auc, cv_pr_auc # 추가 20220729
+    return cv_roc_auc, cv_pr_auc 
 
 
 #########################################################################
@@ -178,10 +176,10 @@ def plotKfoldROC(X_train, y_train, clf, kfold, modelname):
 def plotPRAUC(clf,X_train, y_train, X_test, y_test, seed, modelname):
     from sklearn.metrics import precision_recall_curve
     from sklearn.metrics import auc
-    from sklearn.dummy import DummyClassifier  # 추가
+    from sklearn.dummy import DummyClassifier  
     from sklearn.metrics import PrecisionRecallDisplay
 
-    model = DummyClassifier(strategy='stratified', random_state=seed)  # 추가
+    model = DummyClassifier(strategy='stratified', random_state=seed)  
     model.fit(X_train, y_train)
     yhat_no = model.predict_proba(X_test)
     pos_probs_no = yhat_no[:, 1]
@@ -268,7 +266,7 @@ def plotCalibratedProb(clf,X_train, y_train, kfold, modelname):
 
     plt.figure()
     fold = 1
-    briers_lst=[] # 추가 20220729
+    briers_lst=[] 
     for train_index, test_index in kfold.split(X_train, y_train):
         X_train_fold, X_test_fold = X_train[train_index], X_train[test_index]
         y_train_fold, y_test_fold = y_train[train_index], y_train[test_index]
@@ -276,7 +274,7 @@ def plotCalibratedProb(clf,X_train, y_train, kfold, modelname):
         yhat_calibrated = calibrated(X_train_fold, y_train_fold, X_test_fold)
         fop_calibrated, mpv_calibrated = calibration_curve(y_test_fold, yhat_calibrated, n_bins=10)
         brier = brier_score_loss(y_test_fold, yhat_calibrated, pos_label=1)
-        briers_lst.append(brier) # 추가 20220729
+        briers_lst.append(brier) 
         print(fold)
         print(clf)
         plt.plot([0, 1], [0, 1], linestyle='--', color='black')
@@ -288,7 +286,7 @@ def plotCalibratedProb(clf,X_train, y_train, kfold, modelname):
         plt.legend(loc="lower right")
     plt.show()
     plt.clf()
-    return np.mean(briers_lst) # 추가 20220729
+    return np.mean(briers_lst)
 
 # USAGE : score_df = hyperParamOptimization(parameters, custom_scorer, X_train, y_train)
 # from sklearn.metrics import fbeta_score, make_scorer
