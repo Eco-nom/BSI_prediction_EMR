@@ -20,13 +20,13 @@ The main objectives are:
 ## Installation
 To run the code in this repository, you need to have the following software and packages installed:
 
-- Python 3.x
+- Python 3.8.8
 - NumPy
 - Pandas
 - Scikit-learn
 - Matplotlib
 - Seaborn
-- Jupyter Notebook (optional, for running notebooks)
+- Jupyter Notebook 6.3.0 (optional, for running notebooks)
 
 You can install the required packages using the following command:
 
