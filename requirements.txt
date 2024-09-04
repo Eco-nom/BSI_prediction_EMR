@@ -1,0 +1,8 @@
+numpy==1.21.2
+pandas==1.2.4
+matplotlib==3.3.4
+shap==0.40.0
+xgboost==1.5.2
+scikit-learn==1.1.2
+scikitplot==0.3.7
+statsmodels==0.12.2
