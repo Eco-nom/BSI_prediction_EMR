@@ -21,11 +21,14 @@ The main objectives are:
 To run the code in this repository, you need to have the following software and packages installed:
 
 - Python 3.8.8
-- NumPy
-- Pandas
-- Scikit-learn
-- Matplotlib
-- Seaborn
+- NumPy 1.21.2
+- Pandas 1.2.4
+- Scikit-learn 1.1.2
+- Matplotlib 3.3.4
+- Seaborn 0.11.1
+- Shap 0.40.0
+- Scikitplot 0.3.7
+- Statsmodels 0.12.2
 - Jupyter Notebook 6.3.0 (optional, for running notebooks)
 
 You can install the required packages using the following command:
